@@ -26,9 +26,6 @@ CONSONANTS = set(string.ascii_lowercase) - VOWELS
 
 total_counter = 0
 
-import random
-
-
 def select_random_terms(terms, quantity):
     """
     Randomly samples terms one at a time until 'quantity' unique
@@ -241,3 +238,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
