@@ -3,7 +3,6 @@ import string
 import time
 import sys
 import os
-from import_term import get_terms
 from itertools import combinations
 
 # Fix encoding for Windows console
@@ -26,6 +25,55 @@ VOWELS = set('aeiou')
 CONSONANTS = set(string.ascii_lowercase) - VOWELS
 
 total_counter = 0
+
+import random
+
+
+def select_random_terms(terms, quantity):
+    """
+    Randomly samples terms one at a time until 'quantity' unique
+    terms with length >= 5 are selected.
+    """
+    selected = set()
+    attempts = 0
+
+    while len(selected) < quantity:
+        candidate = random.choice(terms).strip()
+        if len(candidate) >= 5:
+            selected.add(candidate)
+        attempts += 1
+        if attempts > 1000:  # emergency stop to prevent infinite loop
+            raise RuntimeError("Too many attempts — not enough valid terms available.")
+
+    return list(selected)
+
+
+def load_terms_from_file(file_path):
+    """
+    Reads a .txt file and returns a list of terms (one per line).
+    """
+    with open(file_path, 'r', encoding='utf-8') as f:
+        terms = [line.strip() for line in f if line.strip()]
+    return terms
+
+
+def get_terms(quantity):
+    file_path = "C:\\local\\path\\words\\here\\words.txt".strip()
+    try:
+        terms = load_terms_from_file(file_path)
+        if not terms:
+            print("The file is empty or contains no valid terms.")
+            return
+
+        selected_terms = select_random_terms(terms, quantity)
+        print("Found selected_terms for current session.")
+        return selected_terms
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+    except ValueError as ve:
+        print(f"Value error: {ve}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 
 def generate_non_english_like_cipher_allow_duplicates(reference_map):
