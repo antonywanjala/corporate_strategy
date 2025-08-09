@@ -232,10 +232,6 @@ def main():
 
         save_counter += 1
 
-    else:
-        print("Invalid choice.")
-
 
 if __name__ == "__main__":
     main()
-
